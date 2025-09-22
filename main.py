@@ -42,6 +42,30 @@ def _(mlflow):
 def _(pd):
     # Read in the data
     weather = pd.read_csv("london_weather.csv")
+    return (weather,)
+
+
+@app.cell
+def _(weather):
+    # Give a summary of column names, count of values and data types
+    weather.info()
+    return
+
+
+@app.cell
+def _(pd, weather):
+    # Convert data and extract information
+    weather["date"] = pd.to_datetime(weather["date"], format="%Y%m%d")
+    weather["year"] = weather["date"].dt.year
+    weather['month'] = weather['date'].dt.month
+    return
+
+
+@app.cell
+def _(weather):
+    # Aggregate and calculate average metrics
+    weather_metrics = ['cloud_cover', 'sunshine', 'global_radiation', 'max_temp', 'mean_temp', 'min_temp', 'precipitation', 'pressure', 'snow_depth']
+    weather_per_month = weather.groupby(['year', 'month'], as_index = False)[weather_metrics].mean()
     return
 
 
