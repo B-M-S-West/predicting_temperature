@@ -44,6 +44,13 @@ def _(load_dotenv):
 
 
 @app.cell
+def _():
+    import os
+    print(os.getenv("MLFLOW_LOCK_MODEL_DEPENDENCIES"))
+    return
+
+
+@app.cell
 def _(mlflow):
     # Test logging to verify connection
     print(f"MLflow Tracking URI: {mlflow.get_tracking_uri()}")
